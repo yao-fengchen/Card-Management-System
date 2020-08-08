@@ -1,0 +1,95 @@
+# 记录所有名片字典
+card_list = []
+
+
+def show_menu():
+    print("*" * 50)
+    print("欢迎使用【名片管理系统】")
+    print("")
+    print("1.新增名片")
+    print("2.显示全部")
+    print("3.搜索名片")
+    print("")
+    print("0.退出系统")
+    print("*" * 50)
+
+
+def new_card():
+    """新增名片"""
+    print("-" * 50)
+    print("新增名片")
+    # 1.提示用户输入名片信息
+    name = input("请输入姓名：")
+    phone = input("请输入电话：")
+    qq = input("请输入QQ：")
+    # 2.使用用户输入信息建立名片字典
+    card_dic = {"name": name, "phone": phone, "qq": qq}
+    # 3.将名片字典添加到列表中
+    card_list.append(card_dic)
+    # 4.提示用户添加成功
+    print("新增%s的名片成功！" % name)
+
+
+def show_all():
+    """显示全部"""
+    print("-" * 50)
+    print("显示全部")
+    if len(card_list) == 0:
+        print("名片列表为空")
+    else:
+        print("姓名\t\t电话\t\tQQ")
+        print("-" * 50)
+        for temp in card_list:
+            print("%s\t\t%s\t\t%s" % (temp["name"], temp["phone"], temp["qq"]))
+
+
+def search_card():
+    """查询名片"""
+    print("-" * 50)
+    print("查询名片")
+    # 1.提示用户输入要搜索的姓名
+    find_name = input("请输入要搜素的姓名：")
+    # 2.遍历名片列表，查询要搜索的姓名，如果没有，需要提示用户
+    for temp in card_list:
+        if temp["name"] == find_name:
+            print("姓名\t\t电话\t\tQQ")
+            print("-" * 50)
+            print("%s\t\t%s\t\t%s" % (temp["name"], temp["phone"], temp["qq"]))
+            # 修改或删除
+            deal_card(temp)
+            break
+    else:
+        print("查无此人！")
+
+
+def deal_card(find_dic):
+    """删除、修改名片
+    :param find_dic: 查找的名片
+    """
+    print("-" * 50)
+    print(find_dic)
+    operation = input("请输入对名片的操作"
+                      "【1】修改【2】删除【0】返回：")
+    if operation == "1":
+        find_dic["name"] = input_card(find_dic["name"], "修改姓名【回车不修改】：")
+        find_dic["phone"] = input_card(find_dic["phone"], "修改电话【回车不修改】：")
+        find_dic["qq"] = input_card(find_dic["qq"], "修改QQ【回车不修改】：")
+    elif operation == "2":
+        card_list.remove(find_dic)
+        print("删除名片成功！")
+
+
+def input_card(dic_value, tip_message):
+    """输入名片信息
+    :param dic_value:字典原有值
+    :param tip_message:输入的信息
+    :return:输入不为空则返回输入，输入为空则返回原有值
+    """
+    # 1.提示用户输入内容
+    input_value = input(tip_message)
+    # 2.针对输入内容进行判断，如果输入不为空，直接返回结果
+    if len(input_value):
+        return input_value
+    # 3.如果用户输入为空，则返回原字典内容
+    else:
+        return dic_value
